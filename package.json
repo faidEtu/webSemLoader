@@ -1,0 +1,15 @@
+{
+  "name": "web-site",
+  "version": "1.0.0",
+  "description": "Newsletter web site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bulma": "^0.7.1",
+    "slugg": "^1.2.1"
+  }
+}

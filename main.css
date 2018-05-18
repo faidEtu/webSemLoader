@@ -1,0 +1,24 @@
+a,
+button {
+  outline: none !important;
+}
+
+.hidden-input {
+  width: 0.1px;
+  height: 0.1px;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.table {
+  width: 100%;
+}
+
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px;
+  text-align: center;
+}
