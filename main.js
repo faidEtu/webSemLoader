@@ -24,14 +24,16 @@ function csvToJs(csvData) {
 
   let filmsTab = [];
   const nbFilms = filmsData.length - 1;
+  const csvColumns = filmsData[0].split(';').map(column => column.trim());
+  const nbColumns = csvColumns.length;
 
   for (let i = 1; i < nbFilms; i++) { // 1 bceause the 1st line contain cols label
-    let filmData = filmsData[i].split(';');
-    filmsTab.push({
-      id: slugg(filmData[0]),
-      titre: filmData[0],
-      annee: filmData[2]
-    });
+    let filmRawData = filmsData[i].split(';');
+    let filmData = {};
+    for (let j = 0; j < nbColumns; j++) {
+      filmData[csvColumns[j]] = filmRawData[j];
+    }
+    filmsTab.push(filmData);
   }
   films_tab = filmsTab;
   displayFilmsTab();
@@ -44,7 +46,18 @@ function displayFilmsTab() {
   let html = '';
 
   for (let film of films_tab) {
-    html += `<tr> <td>${film.titre}</td> <td>${film.annee}</td> <td id="statut-film-${film.id}"></td> </tr>`;
+    const id = slugg(film['Titre']);
+    const titre = film['Titre'];
+    const annee = film['année'] || film['Année de tournage'] || '';
+    const realisateur = film['Réalisé par'] || film['Réalisateur'] || '';
+    const sortie = film['Date de sortie'];
+    html += `<tr> 
+      <td>${titre}</td> 
+      <td>${annee}</td> 
+      <td>${sortie}</td> 
+      <td>${realisateur}</td> 
+      <td id="statut-film-${id}"></td> 
+      </tr>`;
   }
 
   document.querySelector('#film-tab').innerHTML = '<tbody>' + html + '</tbody>';
@@ -70,6 +83,8 @@ function fusekiInsert() {
         :${film.id} a ?classfilm.
         :${film.id} rdfs:label "${film.titre}"@fr.
         :${film.id} rdfs:year "${film.annee}".
+        :${film.id} IMdb:DateOfRelease "${film.sortie}".
+        :${film.id} IMdb:nameOfPerson "${film.realisateur}".
       }
       WHERE {
         ?classfilm rdfs:label "film"@fr.
