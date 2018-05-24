@@ -23,6 +23,8 @@ function load() {
 
 function getFilmMainsInfos(csvData) {
 
+  FILMS = [];
+
   const filmsData = csvData.split('\n');
 
   const nbFilms = filmsData.length - 1;

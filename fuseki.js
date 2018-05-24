@@ -18,11 +18,13 @@ function fusekiInsertFilms(films) {
   for (let film of films) {
     const query = encodeURIComponent(`
       PREFIX : <http://www.semanticweb.org/nathalie/ontologies/2017/1/untitled-ontology-161/instances#>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX imdb: <http://data.linkimdb.org/ressource/movie#>
 
       INSERT {
         :${film.id} a ?classfilm.
+        :${film.id} rdf:about "${film.imgUrl}".
         :${film.id} rdfs:label "${film.titre}"@fr.
         :${film.id} rdfs:year "${film.annee}".
         :${film.id} imdb:DateOfRelease "${film.sortie}".
@@ -73,10 +75,7 @@ function fusekiInsertActors(actors) {
 
     window.fetch(fuseqiBdUrl + "?update=" + query, { method: 'POST', headers: headers })
       .then((response) => {
-        if (response.status >= 400)
-          document.querySelector('#film-statut-' + film.id).textContent = 'ERREUR';
-        else
-          document.querySelector('#film-statut-' + film.id).textContent = 'OK';
+        
       })
       .catch((err) => {
       });
